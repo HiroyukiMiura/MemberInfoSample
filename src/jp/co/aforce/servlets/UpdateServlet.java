@@ -52,7 +52,12 @@ public class UpdateServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			memberBean.setMemberNo(memberNo);
+
+			if (memberBean == null) {
+				// エラーメッセージを設定
+				memberBean = new MemberBean();
+				memberBean.setEmsg("該当する会員情報が見つかりません");
+			}
 
 			request.setAttribute("memberBean", memberBean);
 

@@ -65,11 +65,11 @@
 						<tr>
 							<td>名前</td>
 							<td><input type="text" name="name"
-								value="${memberBean.name}" readonly></td>
+								value="${memberBean.name}" disabled></td>
 						</tr>
 						<tr>
 							<td>年齢</td>
-							<td><input type="text" name="age" value="${memberBean.age}" readonly></td>
+							<td><input type="text" name="age" value="${memberBean.age}" disabled></td>
 						</tr>
 						<tr>
 							<td>生年月日</td>
