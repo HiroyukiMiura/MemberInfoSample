@@ -11,111 +11,145 @@ import jp.co.aforce.beans.MemberBean;
 public class MemberDAO extends DAO {
 
 	// 会員番号による会員情報の取得
-	public MemberBean search(String keyword) throws Exception {
+	public MemberBean search(String keyword) {
 
 		MemberBean member = new MemberBean();
 
-		Connection con = getConnection();
+		Connection con = null;
+		PreparedStatement st = null;
 
-		PreparedStatement st = con.prepareStatement("select * from members where member_no = ?");
-		st.setString(1, keyword);
-		ResultSet rs = st.executeQuery();
+		try {
 
-		if (rs.next()) {
-			member.setMemberNo(keyword);
-			member.setName(rs.getString("name"));
-			member.setAge(String.valueOf(rs.getInt("age")));
-			member.setBirthYear(String.valueOf(rs.getInt("birth_year")));
-			member.setBirthMonth(String.valueOf(rs.getInt("birth_month")));
-			member.setBirthDay(String.valueOf(rs.getInt("birth_day")));
-		} else {
-			member = null;
+			con = getConnection();
+			st = con.prepareStatement("select * from members where member_no = ?");
+			st.setString(1, keyword);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+
+				member.setMemberNo(keyword);
+				member.setName(rs.getString("name"));
+				member.setAge(String.valueOf(rs.getInt("age")));
+				member.setBirthYear(String.valueOf(rs.getInt("birth_year")));
+				member.setBirthMonth(String.valueOf(rs.getInt("birth_month")));
+				member.setBirthDay(String.valueOf(rs.getInt("birth_day")));
+
+			} else {
+
+				member = null;
+
+			}
+
+			st.close();
+			con.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		st.close();
-		con.close();
 
 		return member;
 	}
 
 	// 会員情報の登録
-	public boolean insert(MemberBean member) throws Exception {
+	public boolean insert(MemberBean member) {
 
 		boolean result = false;
-		Connection con = getConnection();
+		Connection con = null;
+		PreparedStatement st = null;
 
-		PreparedStatement st = con.prepareStatement("insert into members values(?,?,?,?,?,?)");
+		try {
 
-		// 会員番号作成
-		LocalDateTime date = LocalDateTime.now();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyMMddHHmmss");
-		String memberNo = "A" + format.format(date);
+			con = getConnection();
+			st = con.prepareStatement("insert into members values(?,?,?,?,?,?)");
 
-		st.setString(1, memberNo);
-		st.setString(2, member.getName());
-		st.setInt(3, Integer.valueOf(member.getAge()));
-		st.setInt(4, Integer.valueOf(member.getBirthYear()));
-		st.setInt(5, Integer.valueOf(member.getBirthMonth()));
-		st.setInt(6, Integer.valueOf(member.getBirthDay()));
+			// 会員番号作成
+			LocalDateTime date = LocalDateTime.now();
+			DateTimeFormatter format = DateTimeFormatter.ofPattern("yyMMddHHmmss");
+			String memberNo = "A" + format.format(date);
 
-		int line = st.executeUpdate();
+			st.setString(1, memberNo);
+			st.setString(2, member.getName());
+			st.setInt(3, Integer.valueOf(member.getAge()));
+			st.setInt(4, Integer.valueOf(member.getBirthYear()));
+			st.setInt(5, Integer.valueOf(member.getBirthMonth()));
+			st.setInt(6, Integer.valueOf(member.getBirthDay()));
 
-		if (line > 0) {
-			result = true;
+			int line = st.executeUpdate();
+
+			if (line > 0) {
+				result = true;
+			}
+
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		st.close();
-		con.close();
-
 		return result;
+
 	}
 
 	// 会員情報の変更
-	public boolean update(MemberBean member) throws Exception {
+	public boolean update(MemberBean member) {
 
 		boolean result = false;
-		Connection con = getConnection();
+		Connection con = null;
+		PreparedStatement st = null;
 
-		PreparedStatement st = con.prepareStatement(
-				"update members set name=?,age=?,birth_year=?,birth_month=?,birth_day=? WHERE member_no=?");
+		try {
+			con = getConnection();
+			st = con.prepareStatement(
+					"update members set name=?,age=?,birth_year=?,birth_month=?,birth_day=? WHERE member_no=?");
 
-		st.setString(1, member.getName());
-		st.setInt(2, Integer.valueOf(member.getAge()));
-		st.setInt(3, Integer.valueOf(member.getBirthYear()));
-		st.setInt(4, Integer.valueOf(member.getBirthMonth()));
-		st.setInt(5, Integer.valueOf(member.getBirthDay()));
-		st.setString(6, member.getMemberNo());
-		int line = st.executeUpdate();
+			st.setString(1, member.getName());
+			st.setInt(2, Integer.valueOf(member.getAge()));
+			st.setInt(3, Integer.valueOf(member.getBirthYear()));
+			st.setInt(4, Integer.valueOf(member.getBirthMonth()));
+			st.setInt(5, Integer.valueOf(member.getBirthDay()));
+			st.setString(6, member.getMemberNo());
 
-		if (line > 0) {
-			result = true;
+			int line = st.executeUpdate();
+
+			if (line > 0) {
+				result = true;
+			}
+
+			st.close();
+			con.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		st.close();
-		con.close();
 
 		return result;
 	}
-	
+
 	// 会員情報の削除
-	public boolean delete(String memberNo) throws Exception {
+	public boolean delete(String memberNo) {
 
 		boolean result = false;
-		Connection con = getConnection();
+		Connection con = null;
+		PreparedStatement st = null;
 
-		PreparedStatement st = con.prepareStatement(
-				"delete from members where member_no= ?");
+		try {
+			con = getConnection();
+			st = con.prepareStatement(
+					"delete from members where member_no= ?");
+			st.setString(1, memberNo);
 
-		st.setString(1, memberNo);
+			int line = st.executeUpdate();
 
-		int line = st.executeUpdate();
+			if (line > 0) {
+				result = true;
+			}
 
-		if (line > 0) {
-			result = true;
+			st.close();
+			con.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		st.close();
-		con.close();
 
 		return result;
 	}

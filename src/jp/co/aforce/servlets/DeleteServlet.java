@@ -2,7 +2,6 @@ package jp.co.aforce.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import jp.co.aforce.beans.MemberBean;
 import jp.co.aforce.dao.MemberDAO;
 
+/**
+ * 削除画面サーブレット
+ * 
+ * @author s.akama
+ *
+ */
 @WebServlet("/servlet/deleteServlet")
 public class DeleteServlet extends HttpServlet {
 
@@ -19,16 +24,13 @@ public class DeleteServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		// GETリクエストはあり得ないので、無条件でログイン画面に飛ばす
-		RequestDispatcher rDispatcher = request.getRequestDispatcher("/views/menu.jsp");
-		rDispatcher.forward(request, response);
+		request.getRequestDispatcher("/views/menu.jsp").forward(request, response);
 	}
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		// 文字のエンコードを UTF-8 とする。
 		request.setCharacterEncoding("UTF-8");
 
 		// 遷移先画面の設定
@@ -47,11 +49,9 @@ public class DeleteServlet extends HttpServlet {
 
 			MemberDAO memberDao = new MemberDAO();
 			MemberBean memberBean = new MemberBean();
-			try {
-				memberBean = memberDao.search(memberNo);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+
+			memberBean = memberDao.search(memberNo);
+
 			if (memberBean == null) {
 				// エラーメッセージを設定
 				memberBean = new MemberBean();
@@ -60,35 +60,29 @@ public class DeleteServlet extends HttpServlet {
 
 			request.setAttribute("memberBean", memberBean);
 
+			// 削除ボタンが押された場合は会員情報を削除する
 		} else if (request.getParameter("buttonName").equals("削除")) {
 
-			// モデルをインスタンス化する
 			MemberDAO memberDao = new MemberDAO();
-
 			MemberBean memberBean = new MemberBean();
 
-			// 変更処理を実行
-			try {
-				if (memberDao.delete(memberNo)) {
+			// 削除処理を実行
+			if (memberDao.delete(memberNo)) {
 
-					memberBean.setCommsg("削除に成功しました");
-					request.setAttribute("memberBean", memberBean);
+				memberBean.setCommsg("削除に成功しました");
+				request.setAttribute("memberBean", memberBean);
 
-				} else {
+			} else {
 
-					memberBean.setCommsg("削除に失敗しました");
-					request.setAttribute("memberBean", memberBean);
+				memberBean.setCommsg("削除に失敗しました");
+				request.setAttribute("memberBean", memberBean);
 
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 		}
 
-		// forwaed_jsp に設定されているJSPへディスパッチ
-		RequestDispatcher rDispatcher = request.getRequestDispatcher(transitScreen);
-		rDispatcher.forward(request, response);
+		// 遷移先画面に遷移する
+		request.getRequestDispatcher(transitScreen).forward(request, response);
 
 	}
 

@@ -41,15 +41,15 @@
 							<td>生年月日</td>
 							<td><select name="birthYear">
 									<%
-										out.println("<option value=" + "" + ">" + "-" + "</option>");
-										for (int i = 1900; i <= 2020; i++) {
+										out.println("<option value=" + "" + ">" + "" + "</option>");
+										for (int i = 1920; i <= 2020; i++) {
 											out.println("<option value=" + i + ">" + i + "</option>");
 										}
 									%>
 							</select>年 <select name="birthMonth">
 
 									<%
-										out.println("<option value=" + "" + ">" + "-" + "</option>");
+										out.println("<option value=" + "" + ">" + "" + "</option>");
 										for (int i = 1; i <= 12; i++) {
 											out.println("<option value=" + i + ">" + i + "</option>");
 										}
@@ -57,7 +57,7 @@
 
 							</select>月 <select name="birthDay">
 									<%
-										out.println("<option value=" + "" + ">" + "-" + "</option>");
+										out.println("<option value=" + "" + ">" + "" + "</option>");
 										for (int i = 1; i <= 31; i++) {
 											out.println("<option value=" + i + ">" + i + "</option>");
 										}

@@ -54,10 +54,10 @@
 			<form action="../servlet/updateServlet" method="post">
 
 				<p>
-					<td>会員番号</td>
-					<td><input type="text" name="memberNo"
-						value="${memberBean.memberNo}"></td>
-					<td><input type="submit" name="buttonName" value="表示" /></td>
+					会員番号
+					<input type="text" name="memberNo"
+						value="${memberBean.memberNo}">
+					<input type="submit" name="buttonName" value="表示" />
 				</p>
 
 				<table border="1">
@@ -75,8 +75,8 @@
 							<td>生年月日</td>
 							<td><select name="birthYear">
 									<%
-										out.println("<option value=" + "" + ">" + "-" + "</option>");
-										for (int i = 1900; i <= 2020; i++) {
+										out.println("<option value=" + "" + ">" + "" + "</option>");
+										for (int i = 1920; i <= 2020; i++) {
 											if (birthYearData == i) {
 												out.println("<option value=" + i + " selected = \"selected\">" + i + "</option>");
 											} else {
@@ -87,7 +87,7 @@
 							</select>年 <select name="birthMonth">
 
 									<%
-										out.println("<option value=" + "" + ">" + "-" + "</option>");
+										out.println("<option value=" + "" + ">" + "" + "</option>");
 										for (int i = 1; i <= 12; i++) {
 											if (birthMonthData == i) {
 												out.println("<option value=" + i + " selected = \"selected\">" + i + "</option>");
@@ -99,7 +99,7 @@
 
 							</select>月 <select name="birthDay">
 									<%
-										out.println("<option value=" + "" + ">" + "-" + "</option>");
+										out.println("<option value=" + "" + ">" + "" + "</option>");
 										for (int i = 1; i <= 31; i++) {
 											if (birthDayData == i) {
 												out.println("<option value=" + i + " selected = \"selected\">" + i + "</option>");

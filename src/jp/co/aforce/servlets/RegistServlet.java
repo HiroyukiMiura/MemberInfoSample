@@ -2,7 +2,6 @@ package jp.co.aforce.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 import jp.co.aforce.beans.MemberBean;
 import jp.co.aforce.dao.MemberDAO;
 
+/**
+ * 
+ * 登録画面サーブレット
+ * 
+ * @author s.akama
+ *
+ */
 @WebServlet("/servlet/registServlet")
 public class RegistServlet extends HttpServlet {
 
@@ -19,22 +25,20 @@ public class RegistServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		// GETリクエストはあり得ないので、無条件でログイン画面に飛ばす
-		RequestDispatcher rDispatcher = request.getRequestDispatcher("/views/menu.jsp");
-		rDispatcher.forward(request, response);
+		request.getRequestDispatcher("/views/menu.jsp").forward(request, response);
 	}
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		// 文字のエンコードを UTF-8 とする。
 		request.setCharacterEncoding("UTF-8");
 
 		// 遷移先画面の設定
 		String transitScreen = "/views/regist.jsp";
 
 		String button = request.getParameter("buttonName");
+
 		if (button.equals("")) {
 			transitScreen = "/views/regist.jsp";
 		} else {
@@ -60,23 +64,17 @@ public class RegistServlet extends HttpServlet {
 				// 全て入力されているかどうかのチェック
 				if (memberDao.inputCheck(memberBean)) {
 
-					// 登録処理を実行
-					try {
-						
-						if (memberDao.insert(memberBean)) {
+					// 登録処理
+					if (memberDao.insert(memberBean)) {
 
-							memberBean.setCommsg("登録に成功しました");
-							request.setAttribute("memberBean", memberBean);
+						memberBean.setCommsg("登録に成功しました");
+						request.setAttribute("memberBean", memberBean);
 
-						} else {
+					} else {
 
-							memberBean.setCommsg("登録に失敗しました");
-							request.setAttribute("memberBean", memberBean);
+						memberBean.setCommsg("登録に失敗しました");
+						request.setAttribute("memberBean", memberBean);
 
-						}
-					} catch (Exception e) {
-						
-						e.printStackTrace();
 					}
 
 					// 入力にエラーがある場合
@@ -92,9 +90,8 @@ public class RegistServlet extends HttpServlet {
 
 		}
 
-		// forwaed_jsp に設定されているJSPへディスパッチ
-		RequestDispatcher rDispatcher = request.getRequestDispatcher(transitScreen);
-		rDispatcher.forward(request, response);
+		// 遷移先画面に遷移する
+		request.getRequestDispatcher(transitScreen).forward(request, response);
 
 	}
 

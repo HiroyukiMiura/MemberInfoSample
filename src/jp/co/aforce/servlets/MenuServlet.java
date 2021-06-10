@@ -2,13 +2,18 @@ package jp.co.aforce.servlets;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * メニュー画面サーブレット
+ * 
+ * @author s.akama
+ *
+ */
 @WebServlet("/servlet/menuServlet")
 public class MenuServlet extends HttpServlet {
 
@@ -16,16 +21,13 @@ public class MenuServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		// GETリクエストはあり得ないので、無条件でログイン画面に飛ばす
-		RequestDispatcher rDispatcher = request.getRequestDispatcher("/views/menu.jsp");
-		rDispatcher.forward(request, response);
+		request.getRequestDispatcher("/views/menu.jsp").forward(request, response);
 	}
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		// 文字のエンコードを UTF-8 とする。これがないと文字化け。
 		request.setCharacterEncoding("UTF-8");
 
 		// 遷移先画面の設定
@@ -38,7 +40,7 @@ public class MenuServlet extends HttpServlet {
 
 		} else if (request.getParameter("buttonName").equals("会員情報変更")) {
 
-			transitScreen ="/views/update.jsp";
+			transitScreen = "/views/update.jsp";
 
 		} else if (request.getParameter("buttonName").equals("会員情報削除")) {
 
@@ -47,8 +49,7 @@ public class MenuServlet extends HttpServlet {
 		}
 
 		// 遷移先画面に遷移する
-		RequestDispatcher rDispatcher = request.getRequestDispatcher(transitScreen);
-		rDispatcher.forward(request, response);
+		request.getRequestDispatcher(transitScreen).forward(request, response);
 
 	}
 
