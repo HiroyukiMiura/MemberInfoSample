@@ -10,6 +10,19 @@ import jp.co.aforce.beans.MemberBean;
 
 public class MemberDAO extends DAO {
 
+	// 必須チェック
+	public boolean inputCheck(MemberBean member) {
+
+		if (member.getName().isEmpty() || member.getAge().isEmpty() || member.getBirthYear().isEmpty()
+				|| member.getBirthMonth().isEmpty() || member.getBirthDay().isEmpty()) {
+
+			return false;
+
+		}
+
+		return true;
+	}
+
 	// 会員番号による会員情報の取得
 	public MemberBean search(String keyword) {
 
