@@ -13,7 +13,7 @@ public class MemberBean implements Serializable {
 	private String emsg; // エラーメッセージ
 	private String commsg; // 完了メッセージ
 
-	// 引数無しのデフォルトコンストラクタ
+	// 引数無しのコンストラクタ
 	public MemberBean() {
 
 	}
